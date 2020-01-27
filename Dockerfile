@@ -3,7 +3,12 @@ ARG UBUNTU_VERSION=ubuntu18
 FROM neogenie/v8:$UBUNTU_VERSION
 
 ENV GCC_VERSION 9
+
+ENV CMAKE_VERSION_MAJOR "3.15"
+ENV CMAKE_VERSION_MINOR "3.15.3"
+
 ENV BOOST_VERSION "1.71.0"
+
 ENV RAPIDJSON_VERSION "1.1.0"
 ENV RAPIDJSON_ROOT /usr/include/rapidjson
 
@@ -17,7 +22,6 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     git \
     g++-${GCC_VERSION} \
     curl \
-    cmake \
     wget \
     dpkg \
     debconf \
@@ -61,6 +65,13 @@ RUN gem install --no-ri --no-rdoc fpm
 SHELL ["/bin/bash", "-c"]
 
 RUN mkdir ${BUILD_DIR}
+
+# Cmake
+RUN cd ${BUILD_DIR} && \
+    wget --no-check-certificate --max-redirect 3 https://cmake.org/files/v${CMAKE_VERSION_MAJOR}/cmake-${CMAKE_VERSION_MINOR}.tar.gz && \
+    tar zxf cmake-${CMAKE_VERSION_MINOR}.tar.gz && \
+    cd cmake-${CMAKE_VERSION_MINOR} && \
+    ./configure && make && make install
 
 # Boost
 RUN cd ${BUILD_DIR} && \

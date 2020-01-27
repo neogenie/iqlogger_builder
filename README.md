@@ -13,6 +13,7 @@ docker pull neogenie/iqlogger_builder
 ## Content
 
 - GCC 9 
+- CMake
 - Boost (https://www.boost.org/)
 - spdlog (https://github.com/gabime/spdlog)
 - rapidjson (https://rapidjson.org/)
