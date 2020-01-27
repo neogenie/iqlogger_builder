@@ -49,7 +49,7 @@ RUN apt-get update && apt-get install -y software-properties-common && \
     rubygems \
     python-dev \
     libcurl4-openssl-dev \
-    libtbb-dev && \
+    libtbb-dev \
     python \
     pkg-config && \
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_VERSION} 60 --slave /usr/bin/g++ g++ /usr/bin/g++-${GCC_VERSION} && \
