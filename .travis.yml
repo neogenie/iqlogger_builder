@@ -1,0 +1,22 @@
+os: linux
+dist: xenial
+language: shell
+
+services:
+  - docker
+
+jobs:
+  include:
+    - env:
+      - TAG=ubuntu16
+    - env:
+      - TAG=ubuntu18
+
+script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t neogenie/iqlogger_builder:$TAG --build-arg UBUNTU_VERSION=$TAG .
+  - docker push neogenie/iqlogger_builder:$TAG
+  - if [[ "$TAG" == "ubuntu18" ]]; then
+      docker tag neogenie/iqlogger_builder:$TAG neogenie/iqlogger_builder:latest;
+      docker push neogenie/iqlogger_builder:latest;
+    fi
